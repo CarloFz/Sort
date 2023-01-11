@@ -24,5 +24,6 @@ static void CreateData(int dataNum = 200)
 }
 
 int main(int argc, const char * argv[]) {
-    CreateData();
+    // CreateData();
+    cout << "Hello world" << endl;
 }
