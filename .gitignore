@@ -35,4 +35,4 @@
 .vscode
 *.dSYM
 *.code-workspace
-Sort
+build
