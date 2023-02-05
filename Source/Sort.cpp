@@ -40,14 +40,27 @@ static void GetSortData(vector<int>& array)
     ifs.close();
 }
 
+static bool ComfirmOrderdData(vector<int> array)
+{
+    for(int i = 0; i < array.size() - 1; i++)
+    {
+        if (array[i + 1] < array[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
 int main(int argc, const char * argv[]) {
     vector<int> array;
     GetSortData(array);
 
-    SortAlgorithm::BubbleSort(array);
+    // SortAlgorithm::BubbleSort(array);
+    SortAlgorithm::SelectSort(array);
 
-    for(int i = 0; i < array.size(); i++)
-    {
-        cout << array[i] << endl;
+    if (ComfirmOrderdData(array)){
+        cout << "Finish" << endl;
+    }else{
+        cout << "Error" << endl;
     }
 }
