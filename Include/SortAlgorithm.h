@@ -1,11 +1,11 @@
 #include <vector>
-using namespace std;
 namespace Encore
 {
     class SortAlgorithm
     {
     public:
-        static void BubbleSort(vector<int>& array);
-        static void SelectSort(vector<int>& array);      
+        static void BubbleSort(std::vector<int>& array);
+        static void SelectSort(std::vector<int>& array);
+        static void InsertionSort(std::vector<int>& array);
     };
 }
