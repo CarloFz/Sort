@@ -56,11 +56,16 @@ int main(int argc, const char * argv[]) {
 
     // SortAlgorithm::BubbleSort(array);
     // SortAlgorithm::SelectSort(array);
-    SortAlgorithm::InsertionSort(array);
+    // SortAlgorithm::InsertionSort(array);
+    SortAlgorithm::HeapSort(array);
 
     if (ComfirmOrderdData(array)){
         std::cout << "Finish" << std::endl;
     }else{
         std::cout << "Error" << std::endl;
+        for(int i = 0; i < array.size(); i++)
+        {
+            std::cout << array[i] << std::endl;
+        }
     }
 }

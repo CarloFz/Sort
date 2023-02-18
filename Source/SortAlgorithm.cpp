@@ -45,4 +45,47 @@ namespace Encore
             }
         }
     }
+
+    // 从index开始自上而下堆化
+    void SortAlgorithm::Heapity(std::vector<int>& array, int heapSize, int index)
+    {
+        while(index < heapSize)
+        {
+            // get maxPos
+            int maxPos = index;
+            if(index * 2 < heapSize && array[index * 2] > array[index]){
+                maxPos = index * 2;
+            }
+            if(index * 2 + 1 < heapSize && array[index * 2 + 1] > array[maxPos]){
+                maxPos = index * 2 + 1;
+            }
+            if (maxPos == index){
+                break;
+            }
+
+            std::swap(array[index], array[maxPos]);
+            index = maxPos;
+        }
+    }
+
+    void SortAlgorithm::HeapBuild(std::vector<int>& array)
+    {
+        int size = array.size();
+        for(int i = size / 2; i >= 0; i--) // 从最后一个非叶子结点开始倒序自上而下堆化
+        {
+            Heapity(array, size, i);
+        }
+    }
+
+    void SortAlgorithm::HeapSort(std::vector<int>& array)
+    {
+        int size = array.size();
+        // 建堆
+        HeapBuild(array);
+        for(int i = size - 1; i >= 0; i--)
+        {
+            std::swap(array[i], array[0]);
+            Heapity(array, i, 0);
+        }
+    }
 }
