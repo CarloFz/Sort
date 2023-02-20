@@ -88,6 +88,31 @@ namespace Encore
         delete[] b;
     }
 
+    void SortAlgorithm::MergeSort_Recursive(int* array, int len)
+    {
+        int tempArray[len];
+        DoMergeSort_Recursive(array, tempArray, len);
+    }
+
+    void SortAlgorithm::DoMergeSort_Recursive(int* array, int* tempArray, int len)
+    {
+        if (len <= 1) return;
+        int mid = len / 2;
+        DoMergeSort_Recursive(array, tempArray, mid);
+        DoMergeSort_Recursive(array + mid, tempArray, len - mid);
+        int tempKey = 0;
+        int start1 = 0, end1 = mid;
+        int start2 = mid, end2 = len;
+        while(start1 < end1 && start2 < end2)
+            tempArray[tempKey++] = array[start1] < array[start2] ? array[start1++] : array[start2++];
+        while(start1 < end1) tempArray[tempKey++] = array[start1++];
+        while(start2 < end2) tempArray[tempKey++] = array[start2++];
+        for(int i = 0; i < len; i++)
+        {
+            array[i] = tempArray[i];
+        }
+    }
+
     // 从index开始自上而下堆化
     void SortAlgorithm::Heapity(int array[], int heapSize, int index)
     {

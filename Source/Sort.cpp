@@ -5,7 +5,7 @@
 #include "../Include/SortAlgorithm.h"
 using namespace Encore;
 
-static void CreateData(int dataNum = 200)
+static void CreateData(int dataNum = 100000)
 {
     // 生成随机数种子
     srand((unsigned)time(NULL));
@@ -56,20 +56,24 @@ int main(int argc, const char * argv[]) {
     int* array;
     int len = GetSortData(array);
 
+    clock_t start,end;
+    start = clock();
     // SortAlgorithm::BubbleSort(array, len);
     // SortAlgorithm::SelectSort(array, len);
-    // SortAlgorithm::InsertionSort(array, len);
+    // SortAlgorithm::InsertionSort(array, len); 
     // SortAlgorithm::HeapSort(array, len);
     SortAlgorithm::MergeSort(array, len);
+    // SortAlgorithm::MergeSort_Recursive(array, len);
+    end = clock();
 
     if (ComfirmOrderdData(array, len)){
-        std::cout << "Finish" << std::endl;
+        std::cout << "Finish in time: " << double(end - start) / CLOCKS_PER_SEC << "s" << std::endl;
     }else{
-        std::cout << "Error" << std::endl;
         for(int i = 0; i < len; i++)
         {
             std::cout << array[i] << std::endl;
         }
+        std::cout << "Error" << std::endl;
     }
 
     delete[] array;

@@ -8,11 +8,13 @@ namespace Encore
         static void InsertionSort(int array[], int len);
         static void HeapSort(int array[], int len);
         static void MergeSort(int array[], int len);
+        static void MergeSort_Recursive(int* array, int len);
     private:
-        static void Heapity(int array[], int heapSize, int index);
-        static void HeapBuild(int array[], int len);
         static int Min(int value1, int value2);
         static void Swap(int* &value1, int* &value2);
         static void Swap(int &value1, int &value2);
+        static void Heapity(int array[], int heapSize, int index);
+        static void HeapBuild(int array[], int len);
+        static void DoMergeSort_Recursive(int* array, int* tempArray, int len);
     };
 }
