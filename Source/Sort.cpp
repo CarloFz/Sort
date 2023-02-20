@@ -2,7 +2,6 @@
 #include <fstream>
 #include <time.h>
 #include <stdlib.h>
-#include <vector>
 #include "../Include/SortAlgorithm.h"
 using namespace Encore;
 
@@ -57,10 +56,10 @@ int main(int argc, const char * argv[]) {
     int* array;
     int len = GetSortData(array);
 
-    // SortAlgorithm::BubbleSort(array);
-    // SortAlgorithm::SelectSort(array);
-    // SortAlgorithm::InsertionSort(array);
-    // SortAlgorithm::HeapSort(array);
+    // SortAlgorithm::BubbleSort(array, len);
+    // SortAlgorithm::SelectSort(array, len);
+    // SortAlgorithm::InsertionSort(array, len);
+    // SortAlgorithm::HeapSort(array, len);
     SortAlgorithm::MergeSort(array, len);
 
     if (ComfirmOrderdData(array, len)){
