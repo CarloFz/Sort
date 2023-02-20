@@ -36,3 +36,4 @@
 *.dSYM
 *.code-workspace
 build
+SortData.txt
