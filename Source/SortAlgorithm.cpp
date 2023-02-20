@@ -113,6 +113,97 @@ namespace Encore
         }
     }
 
+    void SortAlgorithm::QuickSort(int array[], int len)
+    {
+        DoQuickSort(array, 0, len - 1);
+    }
+
+    void SortAlgorithm::DoQuickSort(int array[], int left, int right)
+    {
+        if (left >= right) return;
+        int keyPos = PartSort(array, left, right);
+        DoQuickSort(array, left, keyPos - 1);
+        DoQuickSort(array, keyPos + 1, right);
+    }
+
+    int SortAlgorithm::PartSort(int array[], int left, int right)
+    {
+        // return PartSort_Hoare(array, left, right);
+        // return PartSort_DigHole(array, left, right);
+        return PartSort_FastSlowPointer(array, left, right);
+    }
+
+    int SortAlgorithm::PartSort_Hoare(int array[], int left, int right)
+    {
+        int midIndex = GetMidIndex(array, left, right);
+        Swap(array[midIndex], array[left]);
+        int key = left; // 取最左边的值为key
+        while(left < right) // 当左右没有相遇
+        {
+            // 由于取了左侧值为key所以right先动 反之亦然
+            while(left < right && array[right] >= array[key]) right--; // 找到比key小的值 退出循环
+            while(left < right && array[left] <= array[key]) left++; // 找到比key大的值 退出循环
+            Swap(array[left], array[right]); // 交换左右值
+        }
+        Swap(array[key], array[left]); // 交换key和相遇处的值
+        return left;
+    }
+
+    int SortAlgorithm::PartSort_DigHole(int array[], int left, int right)
+    {
+        int midIndex = GetMidIndex(array, left, right);
+        Swap(array[midIndex], array[left]);
+        int key = array[left]; // 取左边值做key 保存key值做坑
+        while(left < right)
+        {
+            while(left < right && array[right] >= key) right--;
+            array[left] = array[right]; // 赋值前左边为坑 赋值后右边为坑
+            while(left < right && array[left] <= key) left++;
+            array[right] = array[left]; // 赋值前右边为坑 赋值后左边为坑
+        }
+        // 相遇处为坑
+        array[left] = key;
+        return left;
+    }
+
+    int SortAlgorithm::PartSort_FastSlowPointer(int array[], int left, int right)
+    {
+        int midIndex = GetMidIndex(array, left, right);
+        Swap(array[midIndex], array[left]);
+        int key = left; // 取左边值为key
+        int fast = key + 1, slow = key + 1;
+        while(fast <= right)
+        {
+            if (array[fast] < array[key])
+            {
+                Swap(array[slow++], array[fast]);
+            }
+            fast++;
+        }
+        Swap(array[key], array[slow - 1]); // slow指在期望位置的下一位 所以此处需要回退一位
+        return slow - 1;
+    }
+
+    // 三数取中 从数组的前、中、后三个位置中取中间大小的值作为key 能够让快速排序不管在数组否有序的情况下都能达到最佳效率
+    int SortAlgorithm::GetMidIndex(int array[], int left, int right)
+    {
+        int mid = (right + left) / 2;
+        if ((array[left] > array[right] && array[right] > array[mid]) ||
+            (array[mid] > array[right] && array[right] > array[left]))
+        {
+            return right;
+        }
+        else if((array[mid] > array[left] && array[left] > array[right]) ||
+                (array[right] > array[left] && array[left] > array[mid]))
+        {
+            return left;
+        }
+        else
+        {
+            return mid;
+        }
+    }
+
     // 从index开始自上而下堆化
     void SortAlgorithm::Heapity(int array[], int heapSize, int index)
     {

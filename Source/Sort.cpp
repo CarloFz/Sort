@@ -62,8 +62,9 @@ int main(int argc, const char * argv[]) {
     // SortAlgorithm::SelectSort(array, len);
     // SortAlgorithm::InsertionSort(array, len); 
     // SortAlgorithm::HeapSort(array, len);
-    SortAlgorithm::MergeSort(array, len);
+    // SortAlgorithm::MergeSort(array, len);
     // SortAlgorithm::MergeSort_Recursive(array, len);
+    SortAlgorithm::QuickSort(array, len);
     end = clock();
 
     if (ComfirmOrderdData(array, len)){
