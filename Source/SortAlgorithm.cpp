@@ -41,36 +41,6 @@ namespace Encore
         }
     }
 
-    // 从index开始自上而下堆化
-    void SortAlgorithm::Heapity(int array[], int heapSize, int index)
-    {
-        while(index < heapSize)
-        {
-            // get maxPos
-            int maxPos = index;
-            if(index * 2 < heapSize && array[index * 2] > array[index]){
-                maxPos = index * 2;
-            }
-            if(index * 2 + 1 < heapSize && array[index * 2 + 1] > array[maxPos]){
-                maxPos = index * 2 + 1;
-            }
-            if (maxPos == index){
-                break;
-            }
-
-            Swap(array[index], array[maxPos]);
-            index = maxPos;
-        }
-    }
-
-    void SortAlgorithm::HeapBuild(int array[], int len)
-    {
-        for(int i = len / 2; i >= 0; i--) // 从最后一个非叶子结点开始倒序自上而下堆化
-        {
-            Heapity(array, len, i);
-        }
-    }
-
     void SortAlgorithm::HeapSort(int array[], int len)
     {
         // 建堆
@@ -80,25 +50,6 @@ namespace Encore
             Swap(array[i], array[0]);
             Heapity(array, i, 0);
         }
-    }
-
-    int SortAlgorithm::Min(int value1, int value2)
-    {
-        return value1 > value2 ? value2 : value1;
-    }
-
-    void SortAlgorithm::Swap(int* &value1, int* &value2)
-    {
-        int* temp = value1;
-        value1 = value2;
-        value2 = temp;
-    }
-
-    void SortAlgorithm::Swap(int &value1, int &value2)
-    {
-        int temp = value1;
-        value1 = value2;
-        value2 = temp;
     }
 
     void SortAlgorithm::MergeSort(int array[], int len)
@@ -135,5 +86,54 @@ namespace Encore
         }
 
         delete[] b;
+    }
+
+    // 从index开始自上而下堆化
+    void SortAlgorithm::Heapity(int array[], int heapSize, int index)
+    {
+        while(index < heapSize)
+        {
+            // get maxPos
+            int maxPos = index;
+            if(index * 2 < heapSize && array[index * 2] > array[index]){
+                maxPos = index * 2;
+            }
+            if(index * 2 + 1 < heapSize && array[index * 2 + 1] > array[maxPos]){
+                maxPos = index * 2 + 1;
+            }
+            if (maxPos == index){
+                break;
+            }
+
+            Swap(array[index], array[maxPos]);
+            index = maxPos;
+        }
+    }
+
+    void SortAlgorithm::HeapBuild(int array[], int len)
+    {
+        for(int i = len / 2; i >= 0; i--) // 从最后一个非叶子结点开始倒序自上而下堆化
+        {
+            Heapity(array, len, i);
+        }
+    }
+
+    int SortAlgorithm::Min(int value1, int value2)
+    {
+        return value1 > value2 ? value2 : value1;
+    }
+
+    void SortAlgorithm::Swap(int* &value1, int* &value2)
+    {
+        int* temp = value1;
+        value1 = value2;
+        value2 = temp;
+    }
+
+    void SortAlgorithm::Swap(int &value1, int &value2)
+    {
+        int temp = value1;
+        value1 = value2;
+        value2 = temp;
     }
 }
