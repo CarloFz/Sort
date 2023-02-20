@@ -12,7 +12,8 @@ static void CreateData(int dataNum = 200)
     srand((unsigned)time(NULL));
 
     std::ofstream ofs;
-    ofs.open("SortData.txt", std::ios::out);
+    ofs.open("../SortData.txt", std::ios::out);
+    ofs << dataNum << std::endl;
     for(int i = 0; i < dataNum; i++)
     {
         ofs << rand() << std::endl;
@@ -20,28 +21,29 @@ static void CreateData(int dataNum = 200)
     ofs.close();
 }
 
-static void GetSortData(std::vector<int>& array)
+static int GetSortData(int* &array)
 {
-    array.clear();
     std::ifstream ifs;
-    ifs.open("SortData.txt", std::ios::in);
+    ifs.open("../SortData.txt", std::ios::in);
     if(!ifs.good())
     {
         CreateData();
-        ifs.open("SortData.txt", std::ios::in);
+        ifs.open("../SortData.txt", std::ios::in);
     }
-    
-    int num;
-    while(ifs >> num)
-    {
-        array.push_back(num);
-    }
+
+    int len;
+    ifs >> len;
+    array = new int[len];
+    for(int i = 0; i < len; i++)
+        ifs >> array[i];
+
     ifs.close();
+    return len;
 }
 
-static bool ComfirmOrderdData(std::vector<int> array)
+static bool ComfirmOrderdData(int array[], int len)
 {
-    for(int i = 0; i < array.size() - 1; i++)
+    for(int i = 0; i < len - 1; i++)
     {
         if (array[i + 1] < array[i]){
             return false;
@@ -51,21 +53,25 @@ static bool ComfirmOrderdData(std::vector<int> array)
 }
 
 int main(int argc, const char * argv[]) {
-    std::vector<int> array;
-    GetSortData(array);
+    // CreateData();
+    int* array;
+    int len = GetSortData(array);
 
     // SortAlgorithm::BubbleSort(array);
     // SortAlgorithm::SelectSort(array);
     // SortAlgorithm::InsertionSort(array);
-    SortAlgorithm::HeapSort(array);
+    // SortAlgorithm::HeapSort(array);
+    SortAlgorithm::MergeSort(array, len);
 
-    if (ComfirmOrderdData(array)){
+    if (ComfirmOrderdData(array, len)){
         std::cout << "Finish" << std::endl;
     }else{
         std::cout << "Error" << std::endl;
-        for(int i = 0; i < array.size(); i++)
+        for(int i = 0; i < len; i++)
         {
             std::cout << array[i] << std::endl;
         }
     }
+
+    delete[] array;
 }

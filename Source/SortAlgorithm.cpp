@@ -88,4 +88,52 @@ namespace Encore
             Heapity(array, i, 0);
         }
     }
+
+    int SortAlgorithm::Min(int value1, int value2)
+    {
+        return value1 > value2 ? value2 : value1;
+    }
+
+    void SortAlgorithm::Swap(int* &value1, int* &value2)
+    {
+        int* temp = value1;
+        value1 = value2;
+        value2 = temp;
+    }
+
+    void SortAlgorithm::MergeSort(int array[], int len)
+    {
+        int* a = array;
+        int* b = new int[len];
+        for(int seg = 1; seg < len; seg += seg) // 段长度
+        {
+            for(int start = 0; start < len; start += seg + seg) // 遍历每两个段
+            {
+                //段：start...end-1
+                int start1 = start, end1 = Min(start1 + seg, len);
+                int start2 = end1, end2 = Min(start2 + seg, len);
+                int bKey = start;
+                while(start1 < end1 && start2 < end2) // 两段归并
+                    b[bKey++] = a[start1] < a[start2] ? a[start1++] : a[start2++];
+                // 剩余的单段归并
+                while(start1 < end1)
+                    b[bKey++] = a[start1++];
+                while(start2 < end2)
+                    b[bKey++] = a[start2++];
+            }
+            // 交换ab数组
+            Swap(a, b);
+        }
+
+        if (array != a)
+        {
+            for(int i = 0; i < len; i++)
+            {
+                array[i] = a[i];
+            }
+            b = a;
+        }
+
+        delete[] b;
+    }
 }
