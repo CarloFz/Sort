@@ -10,6 +10,7 @@ namespace Encore
         static void MergeSort(int array[], int len);
         static void MergeSort_Recursive(int* array, int len);
         static void QuickSort(int array[], int len);
+        static void QuickSort_NonRecursive(int array[], int len);
     private:
         static int Min(int value1, int value2);
         static void Swap(int* &value1, int* &value2);

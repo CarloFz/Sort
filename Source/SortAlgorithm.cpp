@@ -1,4 +1,5 @@
 #include "../Include/SortAlgorithm.h"
+#include <stack>
 namespace Encore
 {
     void SortAlgorithm::BubbleSort(int array[], int len)
@@ -88,6 +89,7 @@ namespace Encore
         delete[] b;
     }
 
+    // 递归实现的归并排序 经测试比非递归实现的方式略慢 考虑是因为每次递归都需要对数组进行拷贝
     void SortAlgorithm::MergeSort_Recursive(int* array, int len)
     {
         int tempArray[len];
@@ -110,6 +112,30 @@ namespace Encore
         for(int i = 0; i < len; i++)
         {
             array[i] = tempArray[i];
+        }
+    }
+
+    // 快速排序的非递归实现 经过测试发现速度比递归实现慢 考虑到可能是数据量较大时栈的扩容、压栈和入栈花费了过多的时间
+    // 但非递归实现是在堆中开辟空间存放栈数据 递归实现是在栈中存放递归调用，可能会导致栈溢出
+    void SortAlgorithm::QuickSort_NonRecursive(int array[], int len)
+    {
+        std::stack<int> st;
+        st.push(0); st.push(len - 1);
+        while(!st.empty())
+        {
+            int right = st.top(); st.pop(); // 区间右侧先出栈
+            int left = st.top(); st.pop();
+            if (left >= right) continue;
+            int keyPos = PartSort(array, left, right);
+            // 左区间入栈
+            if (left < keyPos - 1){
+                st.push(left); st.push(keyPos - 1);
+            }
+            // 右区间入栈
+            if (keyPos + 1 < right)
+            {
+                st.push(keyPos + 1); st.push(right);
+            }
         }
     }
 
