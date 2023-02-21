@@ -31,14 +31,16 @@ namespace Encore
     {
         for(int i = 1; i < len; i++){ // i是无序区的起始index 0～(i-1)为有序区 i~(size-1)为无序区
             int insertionValue = array[i];
-            for(int j = i - 1; j >= 0; j--){
+            int j = i - 1;
+            for(; j >= 0; j--){
                 if(array[j] > insertionValue){ // 将大于value的元素后移
                     array[j + 1] = array[j];
-                }else{ // 将value插入到合适的位置
-                    array[j] = insertionValue;
+                }else{ 
+                    // 找到合适的插入位置
                     break;
                 }
             }
+            array[j + 1] = insertionValue;
         }
     }
 
@@ -50,6 +52,36 @@ namespace Encore
         {
             Swap(array[i], array[0]);
             Heapity(array, i, 0);
+        }
+    }
+
+    // 从index开始自上而下堆化
+    void SortAlgorithm::Heapity(int array[], int heapSize, int index)
+    {
+        while(index < heapSize)
+        {
+            // get maxPos
+            int maxPos = index;
+            if(index * 2 < heapSize && array[index * 2] > array[index]){
+                maxPos = index * 2;
+            }
+            if(index * 2 + 1 < heapSize && array[index * 2 + 1] > array[maxPos]){
+                maxPos = index * 2 + 1;
+            }
+            if (maxPos == index){
+                break;
+            }
+
+            Swap(array[index], array[maxPos]);
+            index = maxPos;
+        }
+    }
+
+    void SortAlgorithm::HeapBuild(int array[], int len)
+    {
+        for(int i = len / 2; i >= 0; i--) // 从最后一个非叶子结点开始倒序自上而下堆化
+        {
+            Heapity(array, len, i);
         }
     }
 
@@ -230,33 +262,30 @@ namespace Encore
         }
     }
 
-    // 从index开始自上而下堆化
-    void SortAlgorithm::Heapity(int array[], int heapSize, int index)
+    void SortAlgorithm::ShellSort(int array[], int len)
     {
-        while(index < heapSize)
+        int gap = len / 2;
+        while(gap > 0)
         {
-            // get maxPos
-            int maxPos = index;
-            if(index * 2 < heapSize && array[index * 2] > array[index]){
-                maxPos = index * 2;
+            // 对每个数组进行插入排序 从第一个数组的第二个元素开始
+            for(int i = gap; i < len; i++)
+            {
+                int value = array[i];
+                int j = i - gap;
+                for(; j >= 0; j -= gap)
+                {
+                    if(array[j] > value)
+                    {
+                        array[j + gap] = array[j];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                array[j + gap] = value;
             }
-            if(index * 2 + 1 < heapSize && array[index * 2 + 1] > array[maxPos]){
-                maxPos = index * 2 + 1;
-            }
-            if (maxPos == index){
-                break;
-            }
-
-            Swap(array[index], array[maxPos]);
-            index = maxPos;
-        }
-    }
-
-    void SortAlgorithm::HeapBuild(int array[], int len)
-    {
-        for(int i = len / 2; i >= 0; i--) // 从最后一个非叶子结点开始倒序自上而下堆化
-        {
-            Heapity(array, len, i);
+            gap /= 2;
         }
     }
 

@@ -65,7 +65,8 @@ int main(int argc, const char * argv[]) {
     // SortAlgorithm::MergeSort(array, len);
     // SortAlgorithm::MergeSort_Recursive(array, len);
     // SortAlgorithm::QuickSort(array, len);
-    SortAlgorithm::QuickSort_NonRecursive(array, len);
+    // SortAlgorithm::QuickSort_NonRecursive(array, len);
+    SortAlgorithm::ShellSort(array, len);
     end = clock();
 
     if (ComfirmOrderdData(array, len)){
