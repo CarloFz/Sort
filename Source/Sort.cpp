@@ -2,6 +2,8 @@
 #include <fstream>
 #include <time.h>
 #include <stdlib.h>
+#include <algorithm>
+#include <vector>
 #include "../Include/SortAlgorithm.h"
 using namespace Encore;
 
@@ -13,14 +15,22 @@ static void CreateData(int dataNum = 100000)
     std::ofstream ofs;
     ofs.open("../SortData.txt", std::ios::out);
     ofs << dataNum << std::endl;
+    std::vector<int> array;
     for(int i = 0; i < dataNum; i++)
     {
-        ofs << rand() << std::endl;
+        int value = rand();
+        array.push_back(value);
+        ofs << value << std::endl;
+    }
+    std::sort(array.begin(), array.end());
+    for(int i = 0; i < dataNum; i++)
+    {
+        ofs << array[i] << std::endl;
     }
     ofs.close();
 }
 
-static int GetSortData(int* &array)
+static int GetSortDataLen()
 {
     std::ifstream ifs;
     ifs.open("../SortData.txt", std::ios::in);
@@ -29,22 +39,31 @@ static int GetSortData(int* &array)
         CreateData();
         ifs.open("../SortData.txt", std::ios::in);
     }
-
     int len;
     ifs >> len;
-    array = new int[len];
-    for(int i = 0; i < len; i++)
-        ifs >> array[i];
-
     ifs.close();
     return len;
 }
 
-static bool ComfirmOrderdData(int array[], int len)
+static void GetSortData(int array[], int resultArray[], int len)
 {
-    for(int i = 0; i < len - 1; i++)
+    std::ifstream ifs;
+    ifs.open("../SortData.txt", std::ios::in);
+
+    ifs >> len;
+    for(int i = 0; i < len; i++)
+        ifs >> array[i];
+
+    for(int i = 0; i < len; i++)
+        ifs >> resultArray[i];
+    ifs.close();
+}
+
+static bool ConfirmOrderdData(int array[], int resultArray[], int len)
+{
+    for(int i = 0; i < len; i++)
     {
-        if (array[i + 1] < array[i]){
+        if (array[i] != resultArray[i]){
             return false;
         }
     }
@@ -53,8 +72,9 @@ static bool ComfirmOrderdData(int array[], int len)
 
 int main(int argc, const char * argv[]) {
     // CreateData();
-    int* array;
-    int len = GetSortData(array);
+    int len = GetSortDataLen();
+    int array[len], resultArray[len];
+    GetSortData(array, resultArray, len);
 
     clock_t start,end;
     start = clock();
@@ -69,7 +89,7 @@ int main(int argc, const char * argv[]) {
     SortAlgorithm::ShellSort(array, len);
     end = clock();
 
-    if (ComfirmOrderdData(array, len)){
+    if (ConfirmOrderdData(array, resultArray, len)){
         std::cout << "Finish in time: " << double(end - start) / CLOCKS_PER_SEC << "s" << std::endl;
     }else{
         for(int i = 0; i < len; i++)
@@ -78,6 +98,4 @@ int main(int argc, const char * argv[]) {
         }
         std::cout << "Error" << std::endl;
     }
-
-    delete[] array;
 }
